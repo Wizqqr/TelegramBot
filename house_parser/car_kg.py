@@ -18,11 +18,13 @@ class HouseCrawler:
             return response
 
     async def get_title(self):
+        await self.get_page()
         html = Selector(self.page_content)
         title = html.css("title::text").get()
         return title
 
     async def get_property_links(self):
+        await self.get_page()
         html = Selector(self.page_content)
         links = html.css('.property-list .property-item a::attr(href)').getall()
         full_links = [self.BASE_URL + link for link in links]
