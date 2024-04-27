@@ -51,6 +51,6 @@ async def update_finish(callback: types.CallbackQuery, state:FSMContext, cleanab
     await callback.answer(cleanable_responses[cleanable])
     await state.update_data({'cleanable': cleanable})
     await state.set_state(BookService.last)
-    await callback.message.answer('Thank you for finishing! \nWould you like to write some comment?')
+    await callback.message.answer('Thank you for finishing! \nWould you like to write some cmment?')
 
 
