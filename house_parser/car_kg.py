@@ -4,7 +4,7 @@ from bot import dp, types
 from aiogram import Router
 from aiogram.filters import Command
 
-car_router = Router()
+parser_router = Router()
 
 
 class HouseCrawler:
@@ -30,28 +30,9 @@ class HouseCrawler:
             return None
 
     async def get_property_links(self):
-        page_response = await self.get_page()
-        if page_response:
-            html = Selector(self.page_content)
-            if html.css('.property-list .property-item a::attr(href)').get():
-                links = html.css('.property-list .property-item a::attr(href)').getall()
-                full_links = [self.BASE_URL + link for link in links]
-                return full_links
-            else:
-                return None
-        else:
-            return None
+        html = Selector(self.page_content)
+        links = html.css(".listing a::attr(href)").getall()
+        full_links = list(map(lambda x: self.BASE_URL + x, links))
+        return full_links[:1]
 
 
-@car_router.message(Command("links"))
-async def links(message: types.Message):
-    crawler = HouseCrawler()
-    title = await crawler.get_title()
-    if title:
-        link = await crawler.get_property_links()
-        if link:
-            await message.answer(f"Имя: {title}, ссылка {link}")
-        else:
-            await message.answer("Не удалось найти ссылки на объекты")
-    else:
-        await message.answer("Не удалось получить заголовок страницы")

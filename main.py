@@ -8,7 +8,7 @@ from handlers.callback import callback_router
 from handlers.menu import menu_router
 from handlers.service import service_router
 from handlers.shop import shop_router
-from house_parser.car_kg import car_router
+from handlers.parser import car_router
 
 
 async def on_startup(bot: Bot):
